@@ -1,0 +1,153 @@
+08-04 13:43:18.032 : getServiceInstance failed!
+08-04 13:43:27.019 : video/avc output 640x480 @6000000
+08-04 13:43:27.118 : Camera preferred preview size for video is 1920x1088
+08-04 13:43:27.127 : Camera preview size is 640x480
+08-04 13:43:27.128 : format: {height=480, width=640, bitrate=6000000, mime=video/avc, frame-rate=30, i-frame-interval=5, color-format=2130708361}
+08-04 13:43:27.948 : changeFragmentShader: true - 0
+08-04 13:43:28.101 : present: 116.818067ms
+    sending frame to encoder
+08-04 13:43:28.112 : encoder output format changed: {height=480, width=640, csd-1=java.nio.ByteArrayBuffer[position=0,limit=8,capacity=8], what=1869968451, mime=video/avc, nonrefp-freq=0, csd-0=java.nio.ByteArrayBuffer[position=0,limit=19,capacity=19]}
+08-04 13:43:28.114 : ignoring BUFFER_FLAG_CODEC_CONFIG : 27
+08-04 13:43:28.124 : sent 26981 bytes to muxer
+08-04 13:43:28.231 : present: 247.268067ms
+08-04 13:43:28.232 : sending frame to encoder
+08-04 13:43:28.244 : sent 34715 bytes to muxer
+08-04 13:43:28.359 : present: 377.716067ms
+    sending frame to encoder
+08-04 13:43:28.371 : sent 48302 bytes to muxer
+08-04 13:43:28.489 : present: 508.161067ms
+    sending frame to encoder
+08-04 13:43:28.501 : sent 27756 bytes to muxer
+08-04 13:43:28.620 : present: 638.606067ms
+    sending frame to encoder
+08-04 13:43:28.632 : sent 31148 bytes to muxer
+08-04 13:43:28.750 : present: 769.052067ms
+    sending frame to encoder
+08-04 13:43:28.762 : sent 22371 bytes to muxer
+08-04 13:43:28.880 : present: 899.497067ms
+    sending frame to encoder
+08-04 13:43:28.892 : sent 22213 bytes to muxer
+08-04 13:43:29.011 : present: 1029.947067ms
+    sending frame to encoder
+08-04 13:43:29.024 : sent 26597 bytes to muxer
+08-04 13:43:29.143 : present: 1160.398067ms
+    sending frame to encoder
+08-04 13:43:29.157 : sent 30983 bytes to muxer
+08-04 13:43:29.271 : present: 1290.834067ms
+08-04 13:43:29.272 : sending frame to encoder
+08-04 13:43:29.287 : sent 26905 bytes to muxer
+08-04 13:43:29.404 : present: 1421.282067ms
+    sending frame to encoder
+08-04 13:43:29.418 : sent 30871 bytes to muxer
+08-04 13:43:29.533 : present: 1551.730067ms
+    sending frame to encoder
+08-04 13:43:29.547 : sent 27508 bytes to muxer
+08-04 13:43:29.663 : present: 1682.177067ms
+    sending frame to encoder
+08-04 13:43:29.675 : sent 27023 bytes to muxer
+08-04 13:43:29.792 : present: 1812.624067ms
+08-04 13:43:29.793 : sending frame to encoder
+08-04 13:43:29.805 : sent 27115 bytes to muxer
+08-04 13:43:29.923 : present: 1943.071067ms
+    sending frame to encoder
+08-04 13:43:29.935 : sent 31025 bytes to muxer
+08-04 13:43:29.946 : changeFragmentShader: false - 15
+08-04 13:43:30.053 : present: 2073.519067ms
+08-04 13:43:30.054 : sending frame to encoder
+08-04 13:43:30.066 : sent 24901 bytes to muxer
+08-04 13:43:30.185 : present: 2203.964067ms
+    sending frame to encoder
+08-04 13:43:30.197 : sent 27949 bytes to muxer
+08-04 13:43:30.315 : present: 2334.408067ms
+    sending frame to encoder
+08-04 13:43:30.327 : sent 27583 bytes to muxer
+08-04 13:43:30.447 : present: 2464.857067ms
+    sending frame to encoder
+08-04 13:43:30.460 : sent 27127 bytes to muxer
+08-04 13:43:30.590 : present: 2595.303067ms
+08-04 13:43:30.591 : sending frame to encoder
+08-04 13:43:30.606 : sent 31172 bytes to muxer
+08-04 13:43:30.717 : present: 2725.764067ms
+    sending frame to encoder
+08-04 13:43:30.732 : sent 22633 bytes to muxer
+08-04 13:43:30.846 : present: 2856.212067ms
+08-04 13:43:30.847 : sending frame to encoder
+08-04 13:43:30.863 : sent 27142 bytes to muxer
+08-04 13:43:30.978 : present: 2986.660067ms
+    sending frame to encoder
+08-04 13:43:30.992 : sent 31030 bytes to muxer
+08-04 13:43:31.098 : present: 3117.085067ms
+    sending frame to encoder
+08-04 13:43:31.111 : sent 22530 bytes to muxer
+08-04 13:43:31.230 : present: 3247.530067ms
+08-04 13:43:31.231 : sending frame to encoder
+08-04 13:43:31.243 : sent 27398 bytes to muxer
+08-04 13:43:31.377 : present: 3377.981067ms
+08-04 13:43:31.378 : sending frame to encoder
+08-04 13:43:31.391 : sent 30923 bytes to muxer
+08-04 13:43:31.516 : present: 3508.426067ms
+    sending frame to encoder
+08-04 13:43:31.532 : sent 22390 bytes to muxer
+08-04 13:43:31.630 : present: 3638.893067ms
+    sending frame to encoder
+08-04 13:43:31.645 : sent 26754 bytes to muxer
+08-04 13:43:31.760 : present: 3769.334067ms
+08-04 13:43:31.761 : sending frame to encoder
+08-04 13:43:31.777 : sent 31205 bytes to muxer
+08-04 13:43:31.890 : present: 3899.779067ms
+08-04 13:43:31.891 : sending frame to encoder
+08-04 13:43:31.906 : sent 22723 bytes to muxer
+08-04 13:43:31.917 : changeFragmentShader: true - 30
+08-04 13:43:32.020 : present: 4030.230067ms
+08-04 13:43:32.021 : sending frame to encoder
+08-04 13:43:32.036 : sent 24457 bytes to muxer
+08-04 13:43:32.156 : present: 4160.669067ms
+08-04 13:43:32.157 : sending frame to encoder
+08-04 13:43:32.173 : sent 21461 bytes to muxer
+08-04 13:43:32.290 : present: 4291.118067ms
+    sending frame to encoder
+08-04 13:43:32.306 : sent 26494 bytes to muxer
+08-04 13:43:32.411 : present: 4421.568067ms
+08-04 13:43:32.412 : sending frame to encoder
+08-04 13:43:32.427 : sent 30713 bytes to muxer
+08-04 13:43:32.541 : present: 4552.017067ms
+08-04 13:43:32.542 : sending frame to encoder
+08-04 13:43:32.558 : sent 21947 bytes to muxer
+08-04 13:43:32.671 : present: 4682.457067ms
+08-04 13:43:32.672 : sending frame to encoder
+08-04 13:43:32.687 : sent 26272 bytes to muxer
+08-04 13:43:32.804 : present: 4812.906067ms
+    sending frame to encoder
+08-04 13:43:32.820 : sent 30513 bytes to muxer
+08-04 13:43:32.932 : present: 4943.352067ms
+08-04 13:43:32.933 : sending frame to encoder
+08-04 13:43:32.948 : sent 22094 bytes to muxer
+08-04 13:43:33.065 : present: 5073.801067ms
+    sending frame to encoder
+08-04 13:43:33.081 : sent 26528 bytes to muxer
+08-04 13:43:33.193 : present: 5204.247067ms
+    sending frame to encoder
+08-04 13:43:33.209 : sent 30603 bytes to muxer
+08-04 13:43:33.325 : present: 5334.691067ms
+08-04 13:43:33.326 : sending frame to encoder
+08-04 13:43:33.341 : sent 22490 bytes to muxer
+08-04 13:43:33.455 : present: 5465.140067ms
+    sending frame to encoder
+08-04 13:43:33.471 : sent 26458 bytes to muxer
+08-04 13:43:33.586 : present: 5595.584067ms
+    sending frame to encoder
+08-04 13:43:33.602 : sent 30616 bytes to muxer
+08-04 13:43:33.715 : present: 5726.031067ms
+08-04 13:43:33.716 : sending frame to encoder
+08-04 13:43:33.732 : sent 22470 bytes to muxer
+08-04 13:43:33.848 : present: 5856.481067ms
+    sending frame to encoder
+08-04 13:43:33.864 : sent 21650 bytes to muxer
+08-04 13:43:33.875 : changeFragmentShader: false - 45
+08-04 13:43:33.977 : present: 5986.926067ms
+08-04 13:43:33.978 : sending frame to encoder
+08-04 13:43:33.983 : sending EOS to encoder
+08-04 13:43:33.994 : sent 29432 bytes to muxer
+08-04 13:43:33.995 : end of stream reached
+    releasing camera
+08-04 13:43:34.330 : Stop Encode

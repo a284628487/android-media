@@ -16,6 +16,7 @@
 
 package com.ccflying.cameraTomp4;
 
+import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.MediaCodec;
@@ -24,6 +25,9 @@ import android.media.MediaFormat;
 import android.media.MediaMuxer;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Display;
+import android.view.Surface;
+import android.view.WindowManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +40,7 @@ import java.nio.ByteBuffer;
  * The output file will be something like "/sdcard/test.640x480.mp4".
  */
 public class CameraToMp4 {
+    private Context mContext;
     private static final String TAG = "CameraToMpegTest";
     private static final boolean VERBOSE = true;           // lots of logging
 
@@ -72,6 +77,10 @@ public class CameraToMp4 {
     private MediaCodec.BufferInfo mBufferInfo;
 
     private Throwable mThrowable = null;
+
+    public CameraToMp4(Context context) {
+        this.mContext = context;
+    }
 
     /**
      * test entry point
@@ -249,6 +258,15 @@ public class CameraToMp4 {
         mStManager = new SurfaceTextureManager();
         SurfaceTexture st = mStManager.getSurfaceTexture();
         try {
+            Display display = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+            if (display.getRotation() == Surface.ROTATION_0) {
+                mCamera.setDisplayOrientation(90);
+            }
+            if (display.getRotation() == Surface.ROTATION_270) {
+                mCamera.setDisplayOrientation(180);
+            }
+
             mCamera.setPreviewTexture(st);
         } catch (IOException ioe) {
             throw new RuntimeException("setPreviewTexture failed", ioe);

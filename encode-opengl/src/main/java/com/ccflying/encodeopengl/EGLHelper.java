@@ -1,4 +1,4 @@
-package com.ccflying.endoceopengl;
+package com.ccflying.encodeopengl;
 
 import android.annotation.SuppressLint;
 import android.opengl.EGL14;

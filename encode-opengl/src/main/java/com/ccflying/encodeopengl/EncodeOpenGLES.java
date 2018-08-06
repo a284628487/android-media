@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ccflying.endoceopengl;
+package com.ccflying.encodeopengl;
 
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;

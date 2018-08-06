@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private TextureView mTextureView;
-    private DecodeWrapper mWrapper;
+    private AVDecodeWrapper mWrapper;
     private TimeAnimator mTimeAnimator = new TimeAnimator();
     private String videoPath = null;
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startPlay(Surface surface, int viewWidth, int viewHeight) {
-        mWrapper = new DecodeWrapper(videoPath, surface);
+        mWrapper = new AVDecodeWrapper(videoPath, surface);
         //
         int videoWidth = mWrapper.getVideoWidth();
         int videoHeight = mWrapper.getVideoHeight();

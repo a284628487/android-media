@@ -1,14 +1,13 @@
-package com.ccflying.encodeaudio;
+package com.ccf.encode_decode.audio;
 
 import android.content.Context;
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.ccflying.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +58,7 @@ public class AudioEncoder {
         }
     }
 
-    public void setAudioSoftwarePoller(AudioSoftwarePoller audioSoftwarePoller){
+    public void setAudioSoftwarePoller(AudioSoftwarePoller audioSoftwarePoller) {
         this.audioSoftwarePoller = audioSoftwarePoller;
     }
 
@@ -71,7 +70,7 @@ public class AudioEncoder {
         eosReceived = false;
         eosSentToAudioEncoder = false;
         stopReceived = false;
-        File f = FileUtils.createTempFileInRootAppStorage(c, "test_" + new Date().getTime() + ".m4a");
+        File f = new File(Environment.getExternalStorageDirectory(), "test_" + new Date().getTime() + ".m4a");
         Toast.makeText(c, "Saving audio to: " + f.getAbsolutePath(), Toast.LENGTH_LONG).show();
 
         mAudioBufferInfo = new MediaCodec.BufferInfo();
@@ -195,7 +194,7 @@ public class AudioEncoder {
                 ByteBuffer inputBuffer = inputBuffers[inputBufferIndex];
                 inputBuffer.clear();
                 inputBuffer.put(input);
-                if(audioSoftwarePoller != null){
+                if (audioSoftwarePoller != null) {
                     audioSoftwarePoller.recycleInputBuffer(input);
                 }
                 long presentationTimeUs = (presentationTimeNs - audioStartTime) / 1000;
@@ -371,7 +370,7 @@ public class AudioEncoder {
         }
 
         private void encodeFrame() {
-        if (encoder != null && audio_data != null) {
+            if (encoder != null && audio_data != null) {
                 encoder._offerAudioEncoder(audio_data, presentationTimeNs);
                 audio_data = null;
             }

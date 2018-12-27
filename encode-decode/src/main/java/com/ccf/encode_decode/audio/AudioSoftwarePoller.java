@@ -1,4 +1,4 @@
-package com.ccflying.encodeaudio;
+package com.ccf.encode_decode.audio;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -109,8 +109,15 @@ public class AudioSoftwarePoller {
             for (int x = 0; x < 25; x++)
                 data_buffer.add(new byte[samples_per_frame]);
 
-            AudioRecord audio_recorder;
-            audio_recorder = new AudioRecord(
+
+//            public static final int SAMPLE_RATE = 44100;
+//            public static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
+//            public static final int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
+//            public static final int FRAMES_PER_BUFFER = 24; // 1 sec @ 1024 samples/frame (aac)
+//            public static long US_PER_FRAME = 0;
+
+
+            AudioRecord audio_recorder = new AudioRecord(
                     MediaRecorder.AudioSource.MIC,       // source
                     SAMPLE_RATE,                         // sample rate, hz
                     CHANNEL_CONFIG,                      // channels

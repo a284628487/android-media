@@ -1,7 +1,13 @@
 AudioRecord
 ===========
 
-**AudioRecord**，用于从硬件设备录制音频，有三个方法用于从AudioRecord中获取音频数据，`read(byte[], int, int)`, `read(short[], int, int)` or `read(ByteBuffer, int)`。根据音频格式，选择使用合适的方法来实现。
+**AudioRecord**，用于从硬件设备录制音频，有三个方法用于从AudioRecord中获取音频数据：
+
+- `read(byte[], int, int)`
+- `read(short[], int, int)`
+- `read(ByteBuffer, int)`
+
+根据音频格式，选择使用合适的方法来实现。
 
 ## Constants
 
@@ -17,7 +23,6 @@ AudioRecord
      * reading as much audio data as possible without blocking.
      */
     public final static int READ_NON_BLOCKING = 1;
-			
 ```
 
 ## Constructor
@@ -179,7 +184,6 @@ public class AudioRecordTest extends AndroidTestCase {
         return getContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE);
     }
 }
-
 ```
 > Src: `http://androidxref.com/4.4.2_r2/xref/cts/tests/tests/media/src/android/media/cts/AudioRecordTest.java`
 

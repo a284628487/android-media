@@ -1,4 +1,4 @@
-package com.ccflying.encodeopengl;
+package com.ccf.encode_decode.encode.opengldraw;
 
 import android.annotation.SuppressLint;
 import android.opengl.EGL14;
@@ -12,6 +12,9 @@ import android.view.Surface;
 /**
  * Holds state associated with a Surface used for MediaCodec encoder input.
  * <p>
+ * 构造函数需要一个从MediaCodec.createInputSurface()方法获取到的Surface，
+ * 将使用它来创建EGL Window Surface，执行eglSwapBuffers()将frame传递给video encoder.
+ * -----
  * The constructor takes a Surface obtained from MediaCodec.createInputSurface(), and uses that
  * to create an EGL window surface.  Calls to eglSwapBuffers() cause a frame of data to be sent
  * to the video encoder.
@@ -41,30 +44,39 @@ public class EGLHelper {
     }
 
     /**
-     * Prepares EGL.  We want a GLES 2.0 context and a surface that supports recording.
+     * 准备EGL环境，需要一个ELGS 2.0的Context，和支持Recording的Surface
+     * step:
+     * 1. EGL14.eglGetDisplay
+     * 2. EGL14.eglInitialize
+     * 3. EGL14.eglChooseConfig
+     * 4. EGL14.eglCreateContext
+     * 5. EGL14.eglCreateWindowSurface
      */
     private void eglSetup() {
+        // step1
         mEGLDisplay = EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);
         if (mEGLDisplay == EGL14.EGL_NO_DISPLAY) {
             throw new RuntimeException("unable to get EGL14 display");
         }
         int[] version = new int[2];
+        // step2
         if (!EGL14.eglInitialize(mEGLDisplay, version, 0, version, 1)) {
             throw new RuntimeException("unable to initialize EGL14");
         }
 
         // Configure EGL for recording and OpenGL ES 2.0.
         int[] attribList = {
-                EGL14.EGL_RED_SIZE, 8,
-                EGL14.EGL_GREEN_SIZE, 8,
-                EGL14.EGL_BLUE_SIZE, 8,
-                EGL14.EGL_ALPHA_SIZE, 8,
-                EGL14.EGL_RENDERABLE_TYPE, EGL14.EGL_OPENGL_ES2_BIT,
+                EGL14.EGL_RED_SIZE, 8, // 通道R
+                EGL14.EGL_GREEN_SIZE, 8, // 通道G
+                EGL14.EGL_BLUE_SIZE, 8, // 通道B
+                EGL14.EGL_ALPHA_SIZE, 8, // 通道Alpha
+                EGL14.EGL_RENDERABLE_TYPE, EGL14.EGL_OPENGL_ES2_BIT, // EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT
                 EGL_RECORDABLE_ANDROID, 1,
                 EGL14.EGL_NONE
         };
         EGLConfig[] configs = new EGLConfig[1];
         int[] numConfigs = new int[1];
+        // step3
         EGL14.eglChooseConfig(mEGLDisplay, attribList, 0, configs, 0, configs.length,
                 numConfigs, 0);
         checkEglError("eglCreateContext RGB888+recordable ES2");
@@ -74,6 +86,7 @@ public class EGLHelper {
                 EGL14.EGL_CONTEXT_CLIENT_VERSION, 2,
                 EGL14.EGL_NONE
         };
+        // step4
         mEGLContext = EGL14.eglCreateContext(mEGLDisplay, configs[0], EGL14.EGL_NO_CONTEXT,
                 attrib_list, 0);
         checkEglError("eglCreateContext");
@@ -82,6 +95,7 @@ public class EGLHelper {
         int[] surfaceAttribs = {
                 EGL14.EGL_NONE
         };
+        // step5
         mEGLSurface = EGL14.eglCreateWindowSurface(mEGLDisplay, configs[0], mSurface,
                 surfaceAttribs, 0);
         checkEglError("eglCreateWindowSurface");

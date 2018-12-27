@@ -1,4 +1,4 @@
-package com.ccf.encode_decode.audio;
+package com.ccf.encode_decode.encode.audio;
 
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;

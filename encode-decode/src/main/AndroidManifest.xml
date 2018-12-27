@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".audio.AudioRecordActivity"></activity>
+        <activity android:name=".encode.audio.AudioRecordActivity"></activity>
+        <activity android:name=".encode.opengldraw.GlesEncodeActivity"></activity>
     </application>
 
 </manifest>

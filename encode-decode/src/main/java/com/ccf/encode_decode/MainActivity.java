@@ -10,7 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.ccf.encode_decode.audio.AudioRecordActivity;
+import com.ccf.encode_decode.encode.audio.AudioRecordActivity;
+import com.ccf.encode_decode.encode.opengldraw.GlesEncodeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.record_audio:
                 startActivity(new Intent(this, AudioRecordActivity.class));
+                break;
+            case R.id.encode_gles_to_mp4:
+                startActivity(new Intent(this, GlesEncodeActivity.class));
                 break;
         }
     }

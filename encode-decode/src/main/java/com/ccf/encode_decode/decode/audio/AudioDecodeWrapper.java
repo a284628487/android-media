@@ -1,4 +1,4 @@
-package com.ccflying.decodevideo;
+package com.ccf.encode_decode.decode.audio;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;
@@ -7,7 +7,6 @@ import android.media.MediaCodec;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.util.Log;
-import android.view.Surface;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

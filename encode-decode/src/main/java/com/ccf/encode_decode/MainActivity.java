@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.ccf.encode_decode.decode.AVPlayActivity;
 import com.ccf.encode_decode.encode.audio.AudioRecordActivity;
 import com.ccf.encode_decode.encode.opengldraw.GlesEncodeActivity;
+import com.ccf.encode_decode.encode.surfaceview.SurfaceViewEncodeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         requestPermissions(permissions, 0);
 
-
     }
 
     public void onClick(View view) {
@@ -40,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.encode_gles_to_mp4:
                 startActivity(new Intent(this, GlesEncodeActivity.class));
+                break;
+            case R.id.encode_surfaceview:
+                startActivity(new Intent(this, SurfaceViewEncodeActivity.class));
+                break;
+            case R.id.play_video:
+                startActivity(new Intent(this, AVPlayActivity.class));
                 break;
         }
     }

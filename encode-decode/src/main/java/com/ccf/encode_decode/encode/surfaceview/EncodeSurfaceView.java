@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ccf.encode_decode.encode.opengldraw;
+package com.ccf.encode_decode.encode.surfaceview;
 
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
@@ -25,6 +25,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Surface;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +39,7 @@ import java.nio.ByteBuffer;
  * Generate an MP4 file using OpenGL ES drawing commands.  Demonstrates the use of MediaMuxer
  * and MediaCodec with Surface input.
  */
-public class EncodeOpenGLES2 {
+public class EncodeSurfaceView {
     private static final String TAG = "EncodeOpenGLES";
     private Handler mHandler;
 
@@ -79,8 +80,9 @@ public class EncodeOpenGLES2 {
 
     // allocate one of these up front so we don't need to do it every time
     private MediaCodec.BufferInfo mBufferInfo;
+    private Surface mSurface;
 
-    public EncodeOpenGLES2(String fileName) {
+    public EncodeSurfaceView(String fileName) {
         this.fileName = fileName;
         mHandler = new Handler() {
             @Override
@@ -121,12 +123,13 @@ public class EncodeOpenGLES2 {
     /**
      * Tests encoding of AVC video from a Surface.  The output is saved as an MP4 file.
      */
-    public void startRecording() throws IOException {
+    public void startRecording(Surface surface) throws IOException {
         // QVGA at 2Mbps
         mWidth = 320;
         mHeight = 240;
         mBitRate = 2000000;
 
+        this.mSurface = surface;
 
         try {
             // 准备编码器
@@ -169,6 +172,7 @@ public class EncodeOpenGLES2 {
         mEncoder = MediaCodec.createEncoderByType(MIME_TYPE);
         mEncoder.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
         mEGLHelper = new EGLHelper(mEncoder.createInputSurface());
+        // mEGLHelper = new EGLHelper(mSurface);
         mEncoder.start();
 
         // 输出文件地址.

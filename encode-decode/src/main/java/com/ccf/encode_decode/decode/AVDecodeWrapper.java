@@ -1,10 +1,13 @@
-package com.ccflying.decodevideo;
+package com.ccf.encode_decode.decode;
 
 import android.view.Surface;
 
+import com.ccf.encode_decode.decode.audio.AudioDecodeWrapper;
+import com.ccf.encode_decode.decode.video.VideoDecodeWrapper;
+
 public class AVDecodeWrapper {
-    private final Surface surface;
-    private final String videoSource;
+    protected final Surface surface;
+    protected final String videoSource;
 
     private AudioDecodeWrapper mAudioDecodeWrapper;
     private VideoDecodeWrapper mVideoDecodeWrapper;

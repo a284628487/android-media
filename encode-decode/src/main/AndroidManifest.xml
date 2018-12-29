@@ -23,6 +23,8 @@
 
         <activity android:name=".encode.audio.AudioRecordActivity"></activity>
         <activity android:name=".encode.opengldraw.GlesEncodeActivity"></activity>
+        <activity android:name=".encode.surfaceview.SurfaceViewEncodeActivity"></activity>
+        <activity android:name=".decode.AVPlayActivity"></activity>
     </application>
 
 </manifest>

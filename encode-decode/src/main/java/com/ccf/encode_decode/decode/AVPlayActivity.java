@@ -1,15 +1,17 @@
-package com.ccflying.decodevideo;
+package com.ccf.encode_decode.decode;
 
 import android.animation.TimeAnimator;
 import android.graphics.SurfaceTexture;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.ViewGroup;
 
-public class MainActivity extends AppCompatActivity {
+import com.ccf.encode_decode.R;
+
+public class AVPlayActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private TextureView mTextureView;
     private AVDecodeWrapper mWrapper;
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_av_decode);
         mTextureView = findViewById(R.id.textureView);
         videoPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/video.mp4";
     }
@@ -81,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
         if (viewRatio < videoRatio) {
             params.width = viewWidth;
             params.height = (int) (viewWidth / videoRatio);
-            mTextureView.setLayoutParams(params);
         } else {
             params.height = viewHeight;
             params.width = (int) (viewHeight * videoRatio);
         }
+        mTextureView.setLayoutParams(params);
     }
 
     @Override

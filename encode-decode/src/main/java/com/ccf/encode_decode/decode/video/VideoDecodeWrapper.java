@@ -1,4 +1,4 @@
-package com.ccflying.decodevideo;
+package com.ccf.encode_decode.decode.video;
 
 import android.media.MediaCodec;
 import android.media.MediaExtractor;

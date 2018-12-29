@@ -1,4 +1,4 @@
-package com.ccflying.cameraTomp4;
+package com.ccf.encode_decode.encode.camera;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
@@ -10,7 +10,10 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class STextureRender {
+/**
+ * GLESRender
+ */
+public class GLESRender {
 
     final static String TAG = "STextureRender";
 
@@ -18,14 +21,25 @@ public class STextureRender {
     private static final int TRIANGLE_VERTICES_DATA_STRIDE_BYTES = 5 * FLOAT_SIZE_BYTES;
     private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET = 0;
     private static final int TRIANGLE_VERTICES_DATA_UV_OFFSET = 3;
+    /**
+     * Y                  (1, 1)
+     * |
+     * |
+     * |
+     * |
+     * |
+     * |
+     * |(-1, -1)
+     * -------------------> X
+     */
     private final float[] mTriangleVerticesData = {
             // X, Y, Z, U, V
             -1.0f, -1.0f, 0, 0.f, 0.f, // 左下
             1.0f, -1.0f, 0, 1.f, 0.f, // 右下
             -1.0f, 1.0f, 0, 0.f, 1.f, // 左上
             1.0f, 1.0f, 0, 1.f, 1.f, // 右上
-    };
-
+    }; // 顶点坐标
+    // 顶点坐标
     private FloatBuffer mTriangleVertices;
 
     private static final String VERTEX_SHADER =
@@ -57,9 +71,10 @@ public class STextureRender {
     private int muMVPMatrixHandle;
     private int muSTMatrixHandle;
     private int maPositionHandle;
+    //
     private int maTextureHandle;
 
-    public STextureRender() {
+    public GLESRender() {
         mTriangleVertices = ByteBuffer.allocateDirect(
                 mTriangleVerticesData.length * FLOAT_SIZE_BYTES)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
@@ -123,6 +138,7 @@ public class STextureRender {
             throw new RuntimeException("failed creating program");
         }
         maPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
+        Log.e(TAG, "surfaceCreated: maPositionHandle = " + maPositionHandle);
         checkLocation(maPositionHandle, "aPosition");
         maTextureHandle = GLES20.glGetAttribLocation(mProgram, "aTextureCoord");
         checkLocation(maTextureHandle, "aTextureCoord");
@@ -136,6 +152,7 @@ public class STextureRender {
         GLES20.glGenTextures(1, textures, 0);
 
         mTextureID = textures[0];
+        // 绑定TextureId
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mTextureID);
         checkGlError("glBindTexture mTextureID");
 
@@ -157,8 +174,10 @@ public class STextureRender {
         if (fragmentShader == null) {
             fragmentShader = FRAGMENT_SHADER;
         }
+        Log.e(TAG, "changeFragmentShader: pre = " + mProgram);
         GLES20.glDeleteProgram(mProgram);
         mProgram = createProgram(VERTEX_SHADER, fragmentShader);
+        Log.e(TAG, "changeFragmentShader: new = " + mProgram);
         if (mProgram == 0) {
             throw new RuntimeException("failed creating program");
         }

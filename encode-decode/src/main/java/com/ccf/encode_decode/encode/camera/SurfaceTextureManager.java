@@ -1,23 +1,29 @@
-package com.ccflying.cameraTomp4;
+package com.ccf.encode_decode.encode.camera;
 
 import android.graphics.SurfaceTexture;
+import android.util.Log;
 
 public class SurfaceTextureManager implements SurfaceTexture.OnFrameAvailableListener {
 
+    final String TAG = "SurfaceTextureManager";
+
     // 根据textureId创建出来的SurfaceTexture，将传递给Camera的预览SurfaceTexture。
     private SurfaceTexture mSurfaceTexture;
-    private STextureRender mTextureRender;
+    private GLESRender mGlesRender;
 
     private Object mFrameSyncObject = new Object();     // guards mFrameAvailable
+
     private boolean mFrameAvailable;
 
     /**
      * Creates instances of TextureRender and SurfaceTexture.
      */
     public SurfaceTextureManager() {
-        mTextureRender = new STextureRender();
-        mTextureRender.surfaceCreated();
-        mSurfaceTexture = new SurfaceTexture(mTextureRender.getTextureId());
+        mGlesRender = new GLESRender();
+        // 创建GLES环境，生成TextureId
+        mGlesRender.surfaceCreated();
+        // 根据TextureId创建SurfaceTexture
+        mSurfaceTexture = new SurfaceTexture(mGlesRender.getTextureId());
 
         // This doesn't work if this object is created on the thread that CTS started for
         // these test cases.
@@ -31,13 +37,14 @@ public class SurfaceTextureManager implements SurfaceTexture.OnFrameAvailableLis
         // Java language note: passing "this" out of a constructor is generally unwise,
         // but we should be able to get away with it here.
         mSurfaceTexture.setOnFrameAvailableListener(this);
+        // 添加SurfaceTexture的Frame监听事件
     }
 
     public void release() {
         // this causes a bunch of warnings that appear harmless but might confuse someone:
         // W BufferQueue: [unnamed-3997-2] cancelBuffer: BufferQueue has been abandoned!
         // mSurfaceTexture.release();
-        mTextureRender = null;
+        mGlesRender = null;
         mSurfaceTexture = null;
     }
 
@@ -52,7 +59,7 @@ public class SurfaceTextureManager implements SurfaceTexture.OnFrameAvailableLis
      * Replaces the fragment shader.
      */
     public void changeFragmentShader(String fragmentShader) {
-        mTextureRender.changeFragmentShader(fragmentShader);
+        mGlesRender.changeFragmentShader(fragmentShader);
     }
 
     /**
@@ -81,7 +88,7 @@ public class SurfaceTextureManager implements SurfaceTexture.OnFrameAvailableLis
         }
 
         // Latch the data.
-        mTextureRender.checkGlError("before updateTexImage");
+        mGlesRender.checkGlError("before updateTexImage");
         /**
          * Update the texture image to the most recent frame from the image stream.
          */
@@ -90,12 +97,13 @@ public class SurfaceTextureManager implements SurfaceTexture.OnFrameAvailableLis
         /**
          * Draws the data from SurfaceTexture onto the current EGL surface.
          */
-        mTextureRender.drawFrame(mSurfaceTexture);
+        mGlesRender.drawFrame(mSurfaceTexture);
     }
 
     @Override
     public void onFrameAvailable(SurfaceTexture st) {
         synchronized (mFrameSyncObject) {
+            Log.d(TAG, "onFrameAvailable: ");
             if (mFrameAvailable) {
                 throw new RuntimeException("mFrameAvailable already set, frame could be dropped");
             }

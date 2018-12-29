@@ -1,4 +1,4 @@
-package com.ccflying.cameraTomp4;
+package com.ccf.encode_decode.encode.camera;
 
 import android.opengl.EGL14;
 import android.opengl.EGLConfig;

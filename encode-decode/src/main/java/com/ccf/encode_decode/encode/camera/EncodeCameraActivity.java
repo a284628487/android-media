@@ -1,32 +1,31 @@
-package com.ccflying.cameraTomp4;
+package com.ccf.encode_decode.encode.camera;
 
-import android.media.MediaCodec;
-import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.ccf.encode_decode.R;
+
+public class EncodeCameraActivity extends AppCompatActivity {
 
     private CameraToMp4 mCameraToMp4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_encode_camera);
         mCameraToMp4 = new CameraToMp4(this);
     }
 
-    public void beginEncode(View v) {
+    public void onClick(View v) {
         Toast.makeText(this, "Begin", Toast.LENGTH_SHORT).show();
         try {
-            mCameraToMp4.encodeCameraPreviewToMp4();
+            // 开启录制
+            mCameraToMp4.startRecording();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-        // MediaCodec mc;
-        // GLSurfaceView sv;
     }
 }
 // https://stackoverflow.com/questions/22457623/surfacetextures-onframeavailable-method-always-called-too-late/22461014#22461014

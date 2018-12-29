@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ccflying.cameraTomp4;
+package com.ccf.encode_decode.encode.camera;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -32,6 +32,7 @@ import android.view.WindowManager;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.List;
 
 
 /**
@@ -41,8 +42,7 @@ import java.nio.ByteBuffer;
  */
 public class CameraToMp4 {
     private Context mContext;
-    private static final String TAG = "CameraToMpegTest";
-    private static final boolean VERBOSE = true;           // lots of logging
+    private static final String TAG = "CameraToMp4";
 
     private static File OUTPUT_DIR;
 
@@ -76,8 +76,6 @@ public class CameraToMp4 {
     //
     private MediaCodec.BufferInfo mBufferInfo;
 
-    private Throwable mThrowable = null;
-
     public CameraToMp4(Context context) {
         this.mContext = context;
     }
@@ -85,7 +83,7 @@ public class CameraToMp4 {
     /**
      * test entry point
      */
-    public void encodeCameraPreviewToMp4() throws Throwable {
+    public void startRecording() throws Throwable {
         /**
          * Wraps encodeCameraToMpeg() to a thread. This is necessary because SurfaceTexture will try to use
          * the looper in the current thread if one exists.
@@ -96,33 +94,34 @@ public class CameraToMp4 {
                 try {
                     encodeCameraToMpeg();
                 } catch (Throwable th) {
-                    mThrowable = th;
+                    Log.e(TAG, "run: " + th.toString());
                 }
             }
         }, "codecTest");
         th.start();
-        if (mThrowable != null) {
-            throw mThrowable;
-        }
     }
 
 
     /**
      * Tests encoding of AVC video from Camera input.  The output is saved as an MP4 file.
+     * step1: prepareCamera
+     * step2: prepareEncoder
+     * step3: prepareSurfaceTexture
      */
     private void encodeCameraToMpeg() {
         // arbitrary but popular values
-        int encWidth = 640;
-        int encHeight = 480;
+        int encWidth = 1080;
+        int encHeight = 1920;
+
         int encBitRate = 6000000;      // Mbps
         Log.e(TAG, MIME_TYPE + " output " + encWidth + "x" + encHeight + " @" + encBitRate);
 
         try {
-            // 打开并配置摄像头参数
+            // 1.打开并配置摄像头参数
             prepareCamera(encWidth, encHeight);
-            // 初始化MediaCodec， MediaMuxer，以及EGLSurface。
+            // 2.初始化MediaCodec， MediaMuxer，以及EGLSurface。
             prepareEncoder(encWidth, encHeight, encBitRate);
-            // 配置 SurfaceTexture 并开启摄像头预览。
+            // 3.配置 SurfaceTexture 并开启摄像头预览。
             prepareSurfaceTexture();
 
             long startWhen = System.nanoTime();
@@ -151,9 +150,8 @@ public class CameraToMp4 {
                 // passing the GLSurfaceView's EGLContext as eglCreateContext()'s share_context argument.
                 mStManager.awaitNewImage(); // 获取最新的图片Frame并绘制到EGLSurface。
 
-                if (VERBOSE) {
-                    Log.e(TAG, "present: " + ((st.getTimestamp() - startWhen) / 1000000.0) + "ms");
-                }
+                Log.e(TAG, "present: " + ((st.getTimestamp() - startWhen) / 1000000.0) + "ms");
+
                 // 从SurfaceTexture中获取time stamp, 并且传递给EGL。MediaMuxer将用这个timestamp作为转码视频的time stamp
                 mEGLHelper.setPresentationTime(st.getTimestamp());
 
@@ -162,7 +160,7 @@ public class CameraToMp4 {
                 // buffer (which we can't do, since we're stuck here).  So long as we fully drain
                 // the encoder before supplying additional input, the system guarantees that we
                 // can supply another frame without blocking.
-                if (VERBOSE) Log.e(TAG, "sending frame to encoder");
+                Log.e(TAG, "sending frame to encoder");
                 mEGLHelper.swapBuffers();
             }
 
@@ -180,7 +178,7 @@ public class CameraToMp4 {
         releaseCamera();
         releaseEncoder();
         releaseSurfaceTexture();
-        if (VERBOSE) Log.e(TAG, "Stop Encode");
+        Log.e(TAG, "Stop Encode");
     }
 
     /**
@@ -220,12 +218,16 @@ public class CameraToMp4 {
         // We should make sure that the requested MPEG size is less than the preferred
         // size, and has the same aspect ratio.
         Camera.Size ppsfv = parms.getPreferredPreviewSizeForVideo();
-        if (VERBOSE && ppsfv != null) {
+        if (ppsfv != null) {
             Log.e(TAG, "Camera preferred preview size for video is " +
                     ppsfv.width + "x" + ppsfv.height);
+            parms.setPreviewSize(ppsfv.width, ppsfv.height);
+            return;
         }
         // 查找合适的size.
-        for (Camera.Size size : parms.getSupportedPreviewSizes()) {
+        List<Camera.Size> sizes = parms.getSupportedPreviewSizes();
+        for (Camera.Size size : sizes) {
+            Log.w(TAG, "choosePreviewSize: w=" + size.width + ", h=" + size.height);
             if (size.width == width && size.height == height) {
                 parms.setPreviewSize(width, height);
                 return;
@@ -242,7 +244,7 @@ public class CameraToMp4 {
      * Stops camera preview, and releases the camera to the system.
      */
     private void releaseCamera() {
-        if (VERBOSE) Log.e(TAG, "releasing camera");
+        Log.e(TAG, "releasing camera");
         if (mCamera != null) {
             mCamera.stopPreview();
             mCamera.release();
@@ -256,6 +258,7 @@ public class CameraToMp4 {
      */
     private void prepareSurfaceTexture() {
         mStManager = new SurfaceTextureManager();
+        // 获取使用TextureId创建的SurfaceTexture，它将作为Camera的预览输入对象
         SurfaceTexture st = mStManager.getSurfaceTexture();
         try {
             Display display = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -266,7 +269,7 @@ public class CameraToMp4 {
             if (display.getRotation() == Surface.ROTATION_270) {
                 mCamera.setDisplayOrientation(180);
             }
-
+            // 将preview输出到SurfaceTexture
             mCamera.setPreviewTexture(st);
         } catch (IOException ioe) {
             throw new RuntimeException("setPreviewTexture failed", ioe);
@@ -299,8 +302,8 @@ public class CameraToMp4 {
         format.setInteger(MediaFormat.KEY_BIT_RATE, bitRate);
         format.setInteger(MediaFormat.KEY_FRAME_RATE, FRAME_RATE);
         format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, I_FRAME_INTERVAL);
-        if (VERBOSE)
-            Log.e(TAG, "format: " + format);
+
+        Log.e(TAG, "format: " + format);
 
         // 根据 MIME_TYPE 创建 MediaCodec，并且根据format进行配置.
         // Get a Surface we can use for input and wrap it with a class that handles the EGL work.
@@ -333,7 +336,7 @@ public class CameraToMp4 {
                 "test." + width + "x" + height + ".mp4").toString();
 
         // 创建MediaMuxer. 在这个时候不能添加video track并且start().
-        // 只有当encoder开始处理数据之后，才能 These can only be
+        // 只有当encoder开始处理数据之后，才能开启MediaMuxer。 These can only be
         // obtained from the encoder after it has started processing data.
         //
         // We're not actually interested in multiplexing audio.  We just want to convert
@@ -380,7 +383,7 @@ public class CameraToMp4 {
         final int TIMEOUT_USEC = 10000;
 
         if (endOfStream) {
-            if (VERBOSE) Log.e(TAG, "sending EOS to encoder");
+            Log.e(TAG, "sending EOS to encoder");
             mEncoder.signalEndOfInputStream();
         }
 
@@ -393,7 +396,7 @@ public class CameraToMp4 {
                 if (!endOfStream) {
                     break;// out of while
                 } else {
-                    if (VERBOSE) Log.e(TAG, "no output available, spinning to await EOS");
+                    Log.e(TAG, "no output available, spinning to await EOS");
                 }
             } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
                 // not expected for an encoder
@@ -418,8 +421,7 @@ public class CameraToMp4 {
                 if ((mBufferInfo.flags & MediaCodec.BUFFER_FLAG_CODEC_CONFIG) != 0) {
                     // The codec config data was pulled out and fed to the muxer when we got
                     // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
-                    if (VERBOSE)
-                        Log.e(TAG, "ignoring BUFFER_FLAG_CODEC_CONFIG : " + mBufferInfo.size);
+                    Log.e(TAG, "ignoring BUFFER_FLAG_CODEC_CONFIG : " + mBufferInfo.size);
                     mBufferInfo.size = 0;
                 }
 
@@ -432,15 +434,15 @@ public class CameraToMp4 {
                     encodedData.limit(mBufferInfo.offset + mBufferInfo.size);
                     // Writes an encoded sample into the muxer.
                     mMuxer.writeSampleData(mTrackIndex, encodedData, mBufferInfo);
-                    if (VERBOSE) Log.e(TAG, "sent " + mBufferInfo.size + " bytes to muxer");
+                    Log.e(TAG, "sent " + mBufferInfo.size + " bytes to muxer");
                 }
 
                 // release，释放buffer，不需要渲染
                 mEncoder.releaseOutputBuffer(encoderStatus, false);
                 // EndOfSteam -> break
                 if ((mBufferInfo.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
-                    if (VERBOSE) Log.e(TAG, "end of stream reached");
-                    break;// out of while
+                    Log.e(TAG, "end of stream reached");
+                    break; // out of while
                 }
             }
         }

@@ -22,8 +22,9 @@
         </activity>
 
         <activity android:name=".encode.audio.AudioRecordActivity"></activity>
-        <activity android:name=".encode.opengldraw.GlesEncodeActivity"></activity>
+        <activity android:name=".encode.glesdraw.GlesEncodeActivity"></activity>
         <activity android:name=".encode.surfaceview.SurfaceViewEncodeActivity"></activity>
+        <activity android:name=".encode.camera.EncodeCameraActivity"></activity>
         <activity android:name=".decode.AVPlayActivity"></activity>
     </application>
 

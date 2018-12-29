@@ -29,6 +29,13 @@
         android:text="encode surfaceview" />
 
     <Button
+        android:id="@+id/encode_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="encode camera" />
+
+    <Button
         android:id="@+id/play_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

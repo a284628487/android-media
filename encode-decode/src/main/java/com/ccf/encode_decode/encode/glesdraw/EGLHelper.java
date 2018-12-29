@@ -1,4 +1,4 @@
-package com.ccf.encode_decode.encode.opengldraw;
+package com.ccf.encode_decode.encode.glesdraw;
 
 import android.annotation.SuppressLint;
 import android.opengl.EGL14;

@@ -1,4 +1,4 @@
-package com.ccf.encode_decode.encode.opengldraw;
+package com.ccf.encode_decode.encode.glesdraw;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

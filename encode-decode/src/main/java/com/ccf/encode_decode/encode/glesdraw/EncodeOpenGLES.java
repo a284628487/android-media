@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ccf.encode_decode.encode.opengldraw;
+package com.ccf.encode_decode.encode.glesdraw;
 
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;

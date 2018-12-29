@@ -177,6 +177,11 @@ public class AudioEncoderWrapper {
     private void readEncodedData(boolean endOfStream) {
         final int TIMEOUT_USEC = 100;
         int encoderStatus = 0;
+        if (endOfStream) {
+            Log.e(TAG, "readEncodedData#endOfStream" + endOfStream);
+            // mediaCodec.signalEndOfInputStream();
+            // Line#159 已经设置了BUFFER_FLAG_END_OF_STREAM，上面就不需要signalEndOfInputStream()了。
+        }
         while ((encoderStatus = mediaCodec.dequeueOutputBuffer(bufferInfo, TIMEOUT_USEC)) != MediaCodec.INFO_TRY_AGAIN_LATER) {
             if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
                 // TODO ... ignore

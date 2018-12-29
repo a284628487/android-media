@@ -12,7 +12,8 @@ import android.view.View;
 
 import com.ccf.encode_decode.decode.AVPlayActivity;
 import com.ccf.encode_decode.encode.audio.AudioRecordActivity;
-import com.ccf.encode_decode.encode.opengldraw.GlesEncodeActivity;
+import com.ccf.encode_decode.encode.camera.EncodeCameraActivity;
+import com.ccf.encode_decode.encode.glesdraw.GlesEncodeActivity;
 import com.ccf.encode_decode.encode.surfaceview.SurfaceViewEncodeActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.encode_surfaceview:
                 startActivity(new Intent(this, SurfaceViewEncodeActivity.class));
+                break;
+            case R.id.encode_camera:
+                startActivity(new Intent(this, EncodeCameraActivity.class));
                 break;
             case R.id.play_video:
                 startActivity(new Intent(this, AVPlayActivity.class));

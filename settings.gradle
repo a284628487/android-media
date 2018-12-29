@@ -1,1 +1,1 @@
-include ':encode-camera-opengl', ':encode-decode'
+include ':encode-decode'

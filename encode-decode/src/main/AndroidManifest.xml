@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <uses-feature android:glEsVersion="0x00020000" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,6 +28,7 @@
         <activity android:name=".encode.surfaceview.SurfaceViewEncodeActivity"></activity>
         <activity android:name=".encode.camera.EncodeCameraActivity"></activity>
         <activity android:name=".decode.AVPlayActivity"></activity>
+        <activity android:name=".GlesActivity" />
     </application>
 
 </manifest>

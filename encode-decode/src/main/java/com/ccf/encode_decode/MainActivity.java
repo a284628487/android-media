@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, GlesEncodeActivity.class));
                 break;
             case R.id.encode_surfaceview:
-                startActivity(new Intent(this, SurfaceViewEncodeActivity.class));
+                startActivity(new Intent(this, GlesActivity.class));
                 break;
             case R.id.encode_camera:
                 startActivity(new Intent(this, EncodeCameraActivity.class));

@@ -1,4 +1,4 @@
-package com.ccf.encode_decode;
+package com.ccf.encode_decode.utils;
 
 import android.content.Context;
 import android.os.Environment;

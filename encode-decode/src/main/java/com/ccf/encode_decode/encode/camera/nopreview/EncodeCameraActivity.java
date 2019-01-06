@@ -1,4 +1,4 @@
-package com.ccf.encode_decode.encode.camera;
+package com.ccf.encode_decode.encode.camera.nopreview;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.ccf.encode_decode.encode.camera;
+package com.ccf.encode_decode.encode.camera.nopreview;
 
 import android.opengl.EGL14;
 import android.opengl.EGLConfig;

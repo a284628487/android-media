@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp" />
+
+    <Button
+        android:id="@+id/startRecord"
+        android:layout_width="80dp"
+        android:layout_height="56dp"
+        android:onClick="onClick"
+        android:text="start" />
+
+    <Button
+        android:id="@+id/focus"
+        android:layout_width="80dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick"
+        android:text="Focus" />
+
+    <Button
+        android:id="@+id/stopRecord"
+        android:layout_width="80dp"
+        android:layout_height="56dp"
+        android:layout_gravity="right"
+        android:onClick="onClick"
+        android:text="stop" />
+</FrameLayout>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ccf.encode_decode.encode.camera;
+package com.ccf.encode_decode.encode.camera.nopreview;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;

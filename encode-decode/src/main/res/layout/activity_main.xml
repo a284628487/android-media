@@ -36,6 +36,20 @@
         android:text="encode camera" />
 
     <Button
+        android:id="@+id/encode_camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="encode camera preview" />
+
+    <Button
+        android:id="@+id/encode_camera_preview2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="encode camera preview with audio" />
+
+    <Button
         android:id="@+id/play_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

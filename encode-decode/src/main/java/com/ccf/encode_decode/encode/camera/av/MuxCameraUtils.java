@@ -39,6 +39,11 @@ public class MuxCameraUtils implements Camera.PreviewCallback, Camera.AutoFocusC
         //
         Camera.Parameters parameters = mCamera.getParameters();
         Camera.Size size = parameters.getPreferredPreviewSizeForVideo();
+
+        parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+        parameters.setSceneMode(Camera.Parameters.SCENE_MODE_AUTO);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+
         parameters.setPreviewFormat(ImageFormat.NV21);
         parameters.setPreviewSize(size.width, size.height);
         previewWidth = size.width;

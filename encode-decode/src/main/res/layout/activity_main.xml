@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:text="encode camera" />
+        android:text="encode camera no preview" />
 
     <Button
         android:id="@+id/encode_camera_preview"

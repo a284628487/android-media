@@ -43,11 +43,18 @@
         android:text="encode camera preview" />
 
     <Button
-        android:id="@+id/encode_camera_preview2"
+        android:id="@+id/encode_camera_preview_audio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick"
         android:text="encode camera preview with audio" />
+
+    <Button
+        android:id="@+id/encode_camera_with_gles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="encode camera preview with GLES" />
 
     <Button
         android:id="@+id/play_video"

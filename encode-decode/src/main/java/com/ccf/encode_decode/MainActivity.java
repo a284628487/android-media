@@ -14,6 +14,7 @@ import com.ccf.encode_decode.decode.AVPlayActivity;
 import com.ccf.encode_decode.encode.audio.AudioRecordActivity;
 import com.ccf.encode_decode.encode.camera.nopreview.EncodeCameraActivity;
 import com.ccf.encode_decode.encode.camera.preview.EncodeCameraPreviewActivity;
+import com.ccf.encode_decode.encode.fbocamera.CameraPreviewGLESEncodeActivity;
 import com.ccf.encode_decode.encode.glesdraw.GlesEncodeActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,12 +50,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.encode_camera:
                 startActivity(new Intent(this, EncodeCameraActivity.class));
                 break;
-            case R.id.encode_camera_preview:
+            case R.id.encode_camera_preview: // 只录制视频
                 startActivity(new Intent(this, EncodeCameraPreviewActivity.class));
                 break;
-            case R.id.encode_camera_preview2:
+            case R.id.encode_camera_preview_audio: // 同时录制视频音频
                 startActivity(new Intent(this, EncodeCameraPreviewActivity.class)
                         .putExtra("flag", 1));
+                break;
+            case R.id.encode_camera_with_gles:
+                startActivity(new Intent(this, CameraPreviewGLESEncodeActivity.class));
                 break;
             case R.id.play_video:
                 startActivity(new Intent(this, AVPlayActivity.class));

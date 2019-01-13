@@ -28,8 +28,9 @@
         <activity android:name=".encode.surfaceview.SurfaceViewEncodeActivity"></activity>
         <activity android:name=".encode.camera.nopreview.EncodeCameraActivity"></activity>
         <activity android:name=".decode.AVPlayActivity"></activity>
-        <activity android:name=".GlesActivity" />
         <activity android:name=".encode.camera.preview.EncodeCameraPreviewActivity" />
+        <activity android:name=".encode.fbocamera.CameraPreviewGLESEncodeActivity" />
+        <activity android:name=".GlesActivity" />
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import com.ccf.encode_decode.encode.camera.nopreview.EncodeCameraActivity;
 import com.ccf.encode_decode.encode.camera.preview.EncodeCameraPreviewActivity;
 import com.ccf.encode_decode.encode.fbocamera.CameraPreviewGLESEncodeActivity;
 import com.ccf.encode_decode.encode.glesdraw.GlesEncodeActivity;
+import com.ccf.encode_decode.encode.surfaceview.SurfaceViewEncodeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, GlesEncodeActivity.class));
                 break;
             case R.id.encode_surfaceview:
-                startActivity(new Intent(this, GlesActivity.class));
+                startActivity(new Intent(this, SurfaceViewEncodeActivity.class));
                 break;
             case R.id.encode_camera:
                 startActivity(new Intent(this, EncodeCameraActivity.class));

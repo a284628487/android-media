@@ -22,7 +22,11 @@ import android.media.MediaFormat;
 import android.media.MediaMuxer;
 import android.opengl.GLES20;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+
+import com.ccf.encode_decode.utils.EGLHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,16 +42,15 @@ import java.nio.ByteBuffer;
  */
 public class EncodeOpenGLES {
     private static final String TAG = "EncodeOpenGLES";
-    private static final boolean VERBOSE = false;           // lots of logging
+    private Handler mHandler;
 
     // where to put the output file (note: /sdcard requires WRITE_EXTERNAL_STORAGE permission)
     private static final File OUTPUT_DIR = Environment.getExternalStorageDirectory();
 
     // parameters for the encoder
     private static final String MIME_TYPE = "video/avc";    // H.264 Advanced Video Coding
-    private static final int FRAME_RATE = 10;               // 15fps
+    private static final int FRAME_RATE = 20;               // 15fps
     private static final int IFRAME_INTERVAL = 10;          // 10 seconds between I-frames
-    private static final int NUM_FRAMES = 30;               // two seconds of video
 
     // 两组颜色值
     private static final int TEST_R0 = 0;
@@ -72,11 +75,49 @@ public class EncodeOpenGLES {
     private int mTrackIndex;
     private boolean mMuxerStarted;
 
+    private int index = 0;
+
+    private long mStartRecordTime = 0;
+
     // allocate one of these up front so we don't need to do it every time
     private MediaCodec.BufferInfo mBufferInfo;
 
     public EncodeOpenGLES(String fileName) {
         this.fileName = fileName;
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 1) { // 录制 record
+                    sendEmptyMessageDelayed(1, 1000 / FRAME_RATE);
+                    recordFrame();
+                } else { // 停止 stop
+                    // send end-of-stream to encoder, and drain remaining output
+                    drainEncoder(true);
+                    // release encoder, muxer, and input Surface
+                    releaseEncoder();
+                    //
+                    Log.e(TAG, "RecordingEnd: " + System.currentTimeMillis());
+                }
+            }
+        };
+    }
+
+    private void recordFrame() {
+        // Feed any pending encoder output into the muxer.
+        drainEncoder(false);
+        // 根据索引绘制OpenGL
+        drawSurfaceFrame(index++);
+        Log.e(TAG, "record: " + index);
+        // 设置时间timestamp给EGL。MediaMuxer将用这个timestamp作为转码视频的time stamp
+        mEGLHelper.setPresentationTime(System.nanoTime() - mStartRecordTime);
+
+        // Submit it to the encoder.  The eglSwapBuffers call will block if the input
+        // is full, which would be bad if it stayed full until we dequeued an output
+        // buffer (which we can't do, since we're stuck here).  So long as we fully drain
+        // the encoder before supplying additional input, the system guarantees that we
+        // can supply another frame without blocking.
+        Log.d(TAG, "sending frame " + index + " to encoder");
+        mEGLHelper.swapBuffers();
     }
 
     /**
@@ -89,34 +130,15 @@ public class EncodeOpenGLES {
         mBitRate = 2000000;
 
         try {
-            prepareEncoder(); // 准备编码器
+            // 准备编码器
+            prepareEncoder();
             //
             mEGLHelper.makeCurrent();
             Log.e(TAG, "RecordingBegin: " + System.currentTimeMillis());
-            for (int i = 0; i < NUM_FRAMES; i++) {
-                // Feed any pending encoder output into the muxer.
-                drainEncoder(false);
-                // 根据索引绘制OpenGL
-                drawSurfaceFrame(i);
-                // 设置时间timestamp给EGL。MediaMuxer将用这个timestamp作为转码视频的time stamp
-                mEGLHelper.setPresentationTime(computePresentationTimeNsec(i));
-
-                // Submit it to the encoder.  The eglSwapBuffers call will block if the input
-                // is full, which would be bad if it stayed full until we dequeued an output
-                // buffer (which we can't do, since we're stuck here).  So long as we fully drain
-                // the encoder before supplying additional input, the system guarantees that we
-                // can supply another frame without blocking.
-                Log.d(TAG, "sending frame " + i + " to encoder");
-                mEGLHelper.swapBuffers();
-            }
-            // send end-of-stream to encoder, and drain remaining output
-            drainEncoder(true);
-            Log.e(TAG, "RecordingEnd: " + System.currentTimeMillis());
-        } finally {
-            // release encoder, muxer, and input Surface
-            releaseEncoder();
+            mStartRecordTime = System.nanoTime();
+            mHandler.sendEmptyMessage(1);
+        } catch (Exception e) {
         }
-
         // To test the result, open the file with MediaExtractor, and get the format.  Pass
         // that into the MediaCodec decoder configuration, along with a SurfaceTexture surface,
         // and examine the output with glReadPixels.
@@ -173,7 +195,7 @@ public class EncodeOpenGLES {
      * Releases encoder resources.  May be called after partial / failed initialization.
      */
     private void releaseEncoder() {
-        if (VERBOSE) Log.d(TAG, "releasing encoder objects");
+        Log.d(TAG, "releasing encoder objects");
         if (mEncoder != null) {
             mEncoder.stop();
             mEncoder.release();
@@ -214,7 +236,7 @@ public class EncodeOpenGLES {
                 if (!endOfStream) {
                     break;// out of while
                 } else {
-                    if (VERBOSE) Log.e(TAG, "no output available, spinning to await EOS");
+                    Log.e(TAG, "no output available, spinning to await EOS");
                 }
             } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
                 // not expected for an encoder
@@ -299,16 +321,10 @@ public class EncodeOpenGLES {
     }
 
     /**
-     * Generates the presentation time for frame N, in nanoseconds.
-     */
-    private static long computePresentationTimeNsec(int frameIndex) {
-        final long ONE_BILLION = 1000000000;
-        return frameIndex * ONE_BILLION / FRAME_RATE;
-    }
-
-    /**
      * stop recording
      */
     public void stop() {
+        mHandler.removeMessages(1);
+        mHandler.sendEmptyMessage(0);
     }
 }

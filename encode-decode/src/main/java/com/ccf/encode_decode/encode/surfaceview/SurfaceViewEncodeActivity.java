@@ -3,6 +3,7 @@ package com.ccf.encode_decode.encode.surfaceview;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.opengl.EGLContext;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,15 +22,13 @@ public class SurfaceViewEncodeActivity extends AppCompatActivity implements Surf
 
     private Button mStart, mStop;
 
-    private SurfaceView mSurfaceView;
+    private MySurfaceView mSurfaceView;
 
     private SurfaceHolder mHolder;
 
     private int mWidth, mHeight;
 
     private Paint mPaint;
-
-    private EncodeSurfaceView mEncoder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +40,6 @@ public class SurfaceViewEncodeActivity extends AppCompatActivity implements Surf
         mStop.setEnabled(false);
         //
         mSurfaceView = findViewById(R.id.surfaceView);
-        mSurfaceView.getHolder().addCallback(this);
         //
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
@@ -50,16 +48,17 @@ public class SurfaceViewEncodeActivity extends AppCompatActivity implements Surf
         if (view == mStart) {
             mStart.setEnabled(false);
             mStop.setEnabled(true);
-            mEncoder = new EncodeSurfaceView("testSurfaceView.mp4");
-            try {
-                mEncoder.startRecording(mHolder.getSurface());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            EGLContext mShareContext = mSurfaceView.getShareContext();
+//            mEncoder = new EncodeSurfaceView("testSurfaceView2.mp4", mShareContext);
+//            try {
+//                mEncoder.startRecording(mSurfaceView.getEGLSurface());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         } else {
             mStop.setEnabled(false);
             mStart.setEnabled(true);
-            mEncoder.stop();
+//            mEncoder.stop();
         }
     }
 
@@ -82,6 +81,8 @@ public class SurfaceViewEncodeActivity extends AppCompatActivity implements Surf
         mHolder = null;
     }
 
+
+    // nothing
     private void drawSomething() {
         if (mWidth == 0) {
             return;

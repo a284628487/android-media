@@ -29,6 +29,8 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
+import com.ccf.encode_decode.utils.EGLHelper;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;

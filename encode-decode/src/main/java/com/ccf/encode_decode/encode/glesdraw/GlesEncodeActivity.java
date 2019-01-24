@@ -16,7 +16,7 @@ public class GlesEncodeActivity extends AppCompatActivity {
 
     private Button mStart, mStop;
 
-    private EncodeOpenGLES2 mEncoder;
+    private EncodeOpenGLES mEncoder;
 
     private int index = 0;
 
@@ -34,7 +34,7 @@ public class GlesEncodeActivity extends AppCompatActivity {
         if (view == mStart) {
             mStart.setEnabled(false);
             mStop.setEnabled(true);
-            mEncoder = new EncodeOpenGLES2("testMp4_" + (index++));
+            mEncoder = new EncodeOpenGLES("testMp4_" + (index++));
             try {
                 mEncoder.startRecording();
             } catch (IOException e) {

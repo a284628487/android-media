@@ -44,11 +44,12 @@ public class CameraHelper {
 
             Camera.Size size = findBestSizeValue(parameters.getSupportedPreviewSizes(), screenW, screenH, 0.1f);
             parameters.setPreviewSize(size.width, size.height);
+
             PreviewWidth = size.width;
             PreviewHeight = size.height;
 
-            size = findBestSizeValue(parameters.getSupportedPictureSizes(), screenW, screenH, 0.1f);
-            parameters.setPictureSize(size.width, size.height);
+//            size = findBestSizeValue(parameters.getSupportedPictureSizes(), screenW, screenH, 0.1f);
+//            parameters.setPictureSize(size.width, size.height);
 
             camera.setParameters(parameters);
             camera.startPreview();
@@ -110,12 +111,13 @@ public class CameraHelper {
 //                continue;
 //            }
 
+            if (size.width == 1920 && size.height == 1080) {
+                return size;
+            }
+
             double ratio = (double) size.width / size.height;
 
             double diff = Math.abs(ratio - targetRatio);
-
-            Log.e(TAG, "照相支持尺寸  width:" + size.width + "  height:" + size.height + "  targetRatio:" + targetRatio + "" +
-                    "  ratio:" + ratio + "   diff:" + diff);
 
             if (diff > minDiff) {
                 continue;

@@ -65,7 +65,7 @@ public class CameraFboRender implements GLSurfaceView.Renderer {
     //变换矩阵
     private float[] matrix = new float[16];
 
-    private int screenW, screenH;
+    private int screenW = 1080, screenH = 1554;
 
     private Context context;
 
@@ -77,8 +77,6 @@ public class CameraFboRender implements GLSurfaceView.Renderer {
 
     public CameraFboRender(Context context) {
         this.context = context;
-        screenW = DisplayUtil.getScreenW(context);
-        screenH = DisplayUtil.getScreenH(context);
 
         vertexBuffer = ByteBuffer.allocateDirect(vertexData.length * 4)
                 .order(ByteOrder.nativeOrder())

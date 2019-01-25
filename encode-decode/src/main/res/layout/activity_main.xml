@@ -26,7 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:text="encode surfaceview" />
+        android:text="encode surfaceview"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/encode_camera"
@@ -40,7 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:text="encode camera preview" />
+        android:text="encode camera preview"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/encode_camera_preview_audio"

@@ -32,10 +32,10 @@ public class CameraPreviewGLESEncodeActivity extends AppCompatActivity {
     public void recode1(View view) {
         if (videoEncoder == null) {
             startRecode(44100, 16, 2);
-            button.setText("正在录制");
+            button.setText("Stop");
         } else {
             videoEncoder.stopRecode();
-            button.setText("开始录制");
+            button.setText("Start");
             videoEncoder = null;
         }
     }
@@ -43,7 +43,7 @@ public class CameraPreviewGLESEncodeActivity extends AppCompatActivity {
     private void startRecode(int samplerate, int bit, int channels) {
         videoEncoder = new BaseVideoEncoder(this, cameraEglSurfaceView.getTextureId());
         String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                File.separator + "testEncode.mp4";
+                File.separator + "testEncodeCamera.mp4";
         videoEncoder.initEncoder(cameraEglSurfaceView.getEglContext(), filePath,
                 cameraEglSurfaceView.getCameraPrivewHeight(), // 相机的宽和高是相反的
                 cameraEglSurfaceView.getCameraPrivewWidth());

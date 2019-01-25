@@ -16,7 +16,8 @@ import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.opengles.GL10;
 
 // com.ccf.encode_decode.encode.fbocamera.camera.CameraGLSurfaceView
-public class CameraGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Renderer, CameraFboRender.OnSurfaceTextureCreatedCallback {
+public class CameraGLSurfaceView extends GLSurfaceView implements GLSurfaceView.Renderer,
+        CameraFboRender.OnSurfaceTextureCreatedCallback {
 
     private CameraHelper cameraHelper;
     private CameraFboRender render;
